@@ -79,8 +79,8 @@ function BonusFood() {
 
 // snake function w/ constructor
 function Snake() {
-    this.x = (columns / 2) * grid;
-    this.y = (rows / 2) * grid;
+    this.x = grid * (Math.floor(columns / 2));
+    this.y = grid * (Math.floor(rows / 2));
     this.xVel = grid;
     this.yVel = 0
     this.total = 0;
@@ -285,6 +285,8 @@ const playGame = () => {
         if (game.moveQ.length > 0) {
             game.snake.controller(game.moveQ.shift())
         }
+        //console.log("Snake Pos: x:", (game.snake.x % grid === 0), ", y: ", (game.snake.x % grid === 0))
+        //console.log("Food Pos: x: ", (game.snake.x % grid === 0), ", y: ", (game.snake.x % grid === 0))
     }
 
 
@@ -302,6 +304,7 @@ const gameStateController = (key) => {
             pMScore.innerText = `Current Score: ${game.gameScore}`
         }
     }
+
     if (key === "playbutton-click") {
         game.gameState = "play"
         game.reset()
@@ -336,6 +339,7 @@ const arrowKeys = ["Up", "Down", "Left", "Right"];
 
 window.addEventListener('keydown', (e) => {
     gameStateController(e.key)
+    console.log(e.key)
     const direction = e.key.replace('Arrow', '');
 
     if (game.gameState === "play") {
@@ -354,9 +358,6 @@ document.getElementById('playagainButton').addEventListener("click", () => gameS
 game = new Game()
 //console.log(game.userHighScore)
 gameStateController("initialLoad")
-
-console.log();
-
 
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth - (window.innerWidth % grid);
