@@ -3,11 +3,13 @@
 body {
     padding: 0;
     margin: 0;
-    background-color: rgb(44, 44, 44);
+    background-color: rgb(150, 150, 150);
+    overflow: hidden;
 }
 
 #canvas {
     background-color: rgb(44, 44, 44);
+    position: absolute;
 }
 
 .modal-bg {
@@ -55,10 +57,4 @@ body {
     text-align: center;
     text-decoration: none;
     font-size: 20px;
-}
-
-#gameOverh1 {
-    color: red;
-    font-size: 4em;
-    margin: 30px; 
 }

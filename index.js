@@ -4,8 +4,10 @@ const ctx = canvas.getContext("2d");
 const grid = 30;
 canvas.width = window.innerWidth - (window.innerWidth % grid);
 canvas.height = window.innerHeight - (window.innerHeight % grid);
-const rows = Math.floor(canvas.height / grid);
-const columns = Math.floor(canvas.width / grid);
+canvas.style.top = (window.innerHeight - canvas.height) / 2;
+canvas.style.left = (window.innerWidth - canvas.width) / 2
+let rows = Math.floor(canvas.height / grid);
+let columns = Math.floor(canvas.width / grid);
 
 // start screen
 const startModal = document.getElementById('startModal')
@@ -53,8 +55,8 @@ function BonusFood() {
     this.value = 100;
 
     this.create = function () {
-        this.x = (Math.floor(Math.random() * columns - 1) + 1) * grid;
-        this.y = (Math.floor(Math.random() * rows - 1) + 1) * grid;
+        this.x = (Math.floor(Math.random() * columns)) * grid;
+        this.y = (Math.floor(Math.random() * rows)) * grid;
     }
 
     this.maybe = function () {
@@ -228,10 +230,10 @@ function Game() {
         gameoverModal.style.display = "inline-block"
         endHighScore.textContent = `Your Highest Score: ${game.userHighScore}`
     }
+
 }
 
 const playGame = () => {
-    console.clear()
     pauseHighScore.textContent = `Your High Score: ${game.userHighScore}`
     startHighScore.textContent = `Your High Score: ${game.userHighScore}`
     endScoreField.textContent = `Your Score: ${game.gameScore}`
@@ -240,14 +242,20 @@ const playGame = () => {
         game.end()
     }
     else if (game.gameState === "play" || game.gameState === "play-demo") {
-
-
-        //Math.floor((Math.random() * 100) % 2) === 0 
-
-
-
-
-
+        if (game.food.x > canvas.width) {
+            game.food.create()
+        }
+        if (game.food.y > canvas.height) {
+            game.food.create()
+        }
+        if (game.bonusFood.available) {
+            if (game.bonusFood.x > canvas.width) {
+                game.bonusFood.create()
+            }
+            if (game.bonusFood.y > canvas.height) {
+                game.bonusFood.create()
+            }
+        }
         ctx.clearRect(0, 0, canvas.width, canvas.height)
         game.food.spawn()
         if (game.lastTick === 0) {
@@ -259,7 +267,7 @@ const playGame = () => {
         if (!game.bonusFood.available) {
             game.bonusFood.maybe()
         }
-        
+
         if (game.bonusFood.available) {
             game.bonusFood.spawn()
         }
@@ -278,6 +286,8 @@ const playGame = () => {
             game.snake.controller(game.moveQ.shift())
         }
     }
+
+
 
 }
 
@@ -348,13 +358,13 @@ gameStateController("initialLoad")
 console.log();
 
 
-
-
-/*
 window.addEventListener('resize', () => {
-    canvas.style.width = window.innerWidth;
-    canvas.style.height = window.innerHeight;
+    canvas.width = window.innerWidth - (window.innerWidth % grid);
+    canvas.height = window.innerHeight - (window.innerHeight % grid);
+    canvas.style.top = (window.innerHeight - canvas.height) / 2;
+    canvas.style.left = (window.innerWidth - canvas.width) / 2
+    rows = Math.floor(canvas.height / grid);
+    columns = Math.floor(canvas.width / grid);
 })
-*/
 
 
