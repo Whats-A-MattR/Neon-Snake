@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: rgb(44, 44, 44);
+}
+
+#canvas {
+    background-color: rgb(44, 44, 44);
+}
+
+.modal-bg {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.3);
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+}
+
+.modal {
+    position: absolute;
+    height: 60vh;
+    width: 60%;
+    top: 20vh;
+    left: 20%;
+    border-radius: 20px;
+    background-color: rgba(24, 24, 24, 0.5);
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    justify-content: center;
+    text-align: center;
+    transform: translate(-50%, -50%)
+}
+.modal-content h1,h2 {
+    font-family: 'Fredoka One', cursive;
+    letter-spacing: 2px;
+    color: #FFF;
+}
+
+.gameStateButton {
+    padding: 14px;
+    margin: 10px;
+    background-color: coral;
+    border: none;
+    border-radius:  20px;
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    letter-spacing: 1px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+#gameOverh1 {
+    color: red;
+    font-size: 4em;
+    margin: 30px; 
+}
