@@ -1,3 +1,6 @@
+// pull in localStorage to save persistent high score
+const userStore = window.localStorage;
+
 // set up canvas, avoid skewing by removing remainders
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext("2d");
@@ -26,8 +29,97 @@ const endScoreField = document.getElementById('endScoreField')
 // set FPS for the game to run at, this will also increase or decrease move speed
 const FPS = 9;
 
-// pull in localStorage to save persistent high score
-const userStore = window.localStorage;
+if (userStore.getItem('MusicVol') === null) {
+    userStore.setItem('MusicVol', 0.25)
+}
+if (userStore.getItem('sfxVol') === null) {
+    userStore.setItem('sfxVol', 0.4)
+}
+
+let musicTracks = [
+    "src/audio/songs/mixkit-mura-masa-type-315.mp3",
+    "src/audio/songs/mixkit-peace-487.mp3",
+    "src/audio/songs/mixkit-sleepy-cat-135.mp3",
+    "src/audio/songs/OracleBeat2_2.mp3"
+]
+
+// create <audio>
+let musicPlayer = new Audio()
+musicPlayer.id = "musicPlayer";
+// set volume from stored local data (or default value, see top of script)
+musicPlayer.volume = userStore.getItem('MusicVol')
+// change song, allows looping without playing previous song again
+const setSong = (oldsong = false) => {
+    let musicTracksF
+    if (oldsong) {
+        musicTracksF = musicTracks.filter(song => {
+            let i = oldsong.indexOf(song)
+            if (i === -1) {
+                return song
+            }
+        })
+    } else {
+        musicTracksF = musicTracks
+    }
+    let track = escape(musicTracksF[Math.floor(Math.random() * musicTracksF.length)]);
+    musicPlayer.setAttribute('src', track);
+    //musicPlayer.play();
+}
+// initially set the song
+setSong()
+//play another song after initial song ends
+musicPlayer.addEventListener('ended', () => {
+    setSong(musicPlayer.src)
+})
+// function to set audio player volume, called by eventlistener
+function setMusicVolume(value) {
+    //reduce to .volume scale 0.0 - 1.0
+    value /= 10
+    musicPlayer.volume = value
+    userStore.setItem('MusicVol', value)
+}
+// slider for volume control
+let musicVolController = document.getElementById('musicRange')
+// set slider in correct position for current volume
+musicVolController.setAttribute('value', userStore.getItem('MusicVol') * 10)
+// listen for the slider to move, pass its value to the setvolume function
+musicVolController.addEventListener('input', function () {
+    setMusicVolume(this.value)
+})
+
+let moveSFX = new Audio()
+moveSFX.id = "moveSFX"
+moveSFX.volume = userStore.getItem('sfxVol')
+moveSFX.setAttribute('src', '/src/audio/sfx/move3.mp3')
+
+function playMoveSFX() {
+    moveSFX.play()
+}
+
+function setSFXVolume(value) {
+    value /= 10;
+    moveSFX.volume = value
+    eatSFX.volume = value
+    userStore.setItem('sfxVol', value)
+}
+
+let eatSFX = new Audio()
+eatSFX.id = "eatSFX"
+eatSFX.volume = userStore.getItem('sfxVol')
+eatSFX.setAttribute('src', '/src/audio/sfx/eat.mp3')
+
+function playEatSFX() {
+    eatSFX.play()
+}
+
+let sfxVolumeController = document.getElementById('sfxRange')
+sfxVolumeController.setAttribute('value', userStore.getItem('sfxVol') * 10)
+sfxVolumeController.addEventListener('input', function () {
+    setSFXVolume(this.value)
+})
+sfxVolumeController.addEventListener('change', function () {
+    playEatSFX()
+})
 
 // food function w/ constructor
 function Food() {
@@ -124,6 +216,7 @@ function Snake() {
             if (this.x === food.x && this.y === food.y) {
                 this.total++;
                 game.gameScore += food.value
+                playEatSFX()
                 return true;
             }
             return false;
@@ -135,6 +228,7 @@ function Snake() {
             if (this.x === bonusFood.x && this.y === bonusFood.y) {
                 this.total++;
                 game.gameScore += bonusFood.value
+                playEatSFX()
                 return true;
             }
             return false;
@@ -230,7 +324,6 @@ function Game() {
         gameoverModal.style.display = "inline-block"
         endHighScore.textContent = `Your Highest Score: ${game.userHighScore}`
     }
-
 }
 
 const playGame = () => {
@@ -238,10 +331,13 @@ const playGame = () => {
     startHighScore.textContent = `Your High Score: ${game.userHighScore}`
     endScoreField.textContent = `Your Score: ${game.gameScore}`
     if (game.snake.collision()) {
-        console.log("ouch")
         game.end()
+        musicPlayer.pause()
     }
     else if (game.gameState === "play" || game.gameState === "play-demo") {
+        if (game.gameState === "play") {
+            moveSFX.play()
+        }
         if (game.food.x > canvas.width) {
             game.food.create()
         }
@@ -263,6 +359,7 @@ const playGame = () => {
         }
         game.snake.update()
         game.snake.draw()
+        
 
         if (!game.bonusFood.available) {
             game.bonusFood.maybe()
@@ -285,18 +382,19 @@ const playGame = () => {
         if (game.moveQ.length > 0) {
             game.snake.controller(game.moveQ.shift())
         }
-        //console.log("Snake Pos: x:", (game.snake.x % grid === 0), ", y: ", (game.snake.x % grid === 0))
-        //console.log("Food Pos: x: ", (game.snake.x % grid === 0), ", y: ", (game.snake.x % grid === 0))
     }
-
-
-
 }
 
 const gameStateController = (key) => {
     if (key === 'Escape') {
         if (game.gameState === "paused") {
-            game.gameState = "play"
+            if (settingsModal.style.display === "inline-block") {
+                settingsModal.style.display = "none"
+            }
+            else {
+                game.gameState = "play"
+            }
+            
         }
         else if (game.gameState === "play") {
             game.gameState = "paused"
@@ -306,6 +404,7 @@ const gameStateController = (key) => {
     }
 
     if (key === "playbutton-click") {
+        musicPlayer.play()
         game.gameState = "play"
         game.reset()
         game.play()
@@ -331,17 +430,13 @@ const gameStateController = (key) => {
         startModal.style.display = "none"
         pauseModal.style.display = "none"
     }
-
 }
-
 
 const arrowKeys = ["Up", "Down", "Left", "Right"];
 
 window.addEventListener('keydown', (e) => {
     gameStateController(e.key)
-    console.log(e.key)
     const direction = e.key.replace('Arrow', '');
-
     if (game.gameState === "play") {
         if (arrowKeys.includes(direction)) {
             if (game.moveQ.length < 3) {
@@ -351,12 +446,24 @@ window.addEventListener('keydown', (e) => {
     }
 })
 
+const settingsModal = document.getElementById('settingsModal')
+document.getElementById('close-settings').addEventListener("click", () => {
+    settingsModal.style.display = "none"
+})
+
+const showSettings = () => {
+    settingsModal.style.display = "inline-block"
+}
+
 document.getElementById('playButton').addEventListener('click', () => gameStateController("playbutton-click"))
 document.getElementById('resumeButton').addEventListener("click", () => gameStateController("resumebutton-click"))
 document.getElementById('resetButton').addEventListener("click", () => gameStateController("reset"))
 document.getElementById('playagainButton').addEventListener("click", () => gameStateController("playagain"))
+document.getElementById('start-settings').addEventListener("click", () => {showSettings()})
+document.getElementById('pause-settings').addEventListener("click", () => {showSettings()})
+document.getElementById('GO-settings').addEventListener("click", () => {showSettings()})
+
 game = new Game()
-//console.log(game.userHighScore)
 gameStateController("initialLoad")
 
 window.addEventListener('resize', () => {
@@ -367,5 +474,3 @@ window.addEventListener('resize', () => {
     rows = Math.floor(canvas.height / grid);
     columns = Math.floor(canvas.width / grid);
 })
-
-

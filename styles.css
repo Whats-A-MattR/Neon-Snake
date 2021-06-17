@@ -3,12 +3,12 @@
 body {
     padding: 0;
     margin: 0;
-    background-color: rgb(150, 150, 150);
+    background-color: rgb(0, 0, 0);
     overflow: hidden;
 }
 
 #canvas {
-    background-color: rgb(44, 44, 44);
+    background-color: rgb(51, 51, 51);
     position: absolute;
 }
 
@@ -63,4 +63,86 @@ body {
     font-size: 4em;
     color: rgb(255, 58, 58);
     margin: 0.2em;
+}
+
+#soundPlayer {
+    display: hidden;
+}
+
+audio {
+    display:none;
+}
+
+.settings-icon {
+    text-align: right;
+    padding: 20px;
+}
+
+.settings-cog {
+    font-size: 40px !important;
+    color:#FFF;
+    background-color: transparent;
+    border: none;
+}
+
+.close-settings-button {
+    font-family: 'Fredoka One', cursive;
+    font-size: 40px;
+    border: none;
+    background-color: transparent;
+    color: whitesmoke;
+}
+
+.close-settings-button:hover {
+    color: rgb(199, 199, 199);
+}
+
+.settings-width {
+    color: whitesmoke;
+    width: 60%;
+    height: 80%;
+    font-family: 'Fredoka One', cursive;
+}
+
+.settings-area {
+    padding: 5%;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 20px;
+    border-radius: 20px;;
+    background:rgb(199, 199, 199);
+    outline: none;
+    opacity: 0.8;
+    -webkit-transition: 0.2s;
+    transition: opacity .2s;
+}
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 100%;
+    background: coral;
+    cursor: pointer;
+}
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: coral;
+    cursor: pointer;
+}
+
+.settings-bg {
+    background: transparent;
+}
+
+.settings-modal {
+    background-color: rgba(129, 129, 129, 1);
 }

@@ -4,6 +4,7 @@
     <title>Neon Snake</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -11,6 +12,9 @@
     </canvas>
     <div class="modal-bg" id="startModal">
         <div class="modal">
+            <div class="settings-icon">
+                <button class="fa fa-cog settings-cog" id="start-settings"></button>
+            </div>
             <div class="modal-content">
                 <h1>Neon Snake</h1>
                 <h1 id="startHighScore"></h1>
@@ -20,17 +24,23 @@
     </div>
     <div class="modal-bg" id="pauseModal" style="display: none;">
         <div class="modal">
+            <div class="settings-icon">
+                <i class="fa fa-cog settings-cog" id="pause-settings"></i>
+            </div>
             <div class="modal-content">
                 <h1>Neon Snake</h1>
                 <h1 id="pauseHighScore"></h1>
                 <h1 id='currentScoreField'></h1>
                 <button id="resumeButton" class="gameStateButton">Resume</button>
-                <button id="resetButton" class="gameStateButton">Reset</button>
+                <button id="resetButton" class="gameStateButton">Reset &#8634</button>
             </div>
         </div>
     </div>
     <div class="modal-bg" id="gameoverModal" style="display: none;">
         <div class="modal">
+            <div class="settings-icon">
+                <button class="fa fa-cog settings-cog" id="GO-settings"></button>
+            </div>
             <div class="modal-content">
                 <h1>Neon Snake</h1>
                 <h1 id="gameOverh1">Game Over!</h1>
@@ -40,7 +50,24 @@
             </div>
         </div>
     </div>
+    <div class="modal-bg settings-bg" id="settingsModal" style="display: none">
+        <div class="modal settings-modal">
+            <div class="settings-icon">
+                <button id="close-settings" class="close-settings-button">X</button>
+            </div>
+            <div class="modal-content settings-width">
+                <h1>Neon Snake</h1>
+                <h2>Settings</h2>
+                <div class="settings-area">
+                    <h4>Music Volume</h4>
+                    <input type="range" min="0" max="10" value="9" id="musicRange" class="slider" step="0.01">
+                    <h4>SFXVolume</h4>
+                    <input type="range" min="0" max="10" value="9" id="sfxRange" class="slider" step="0.01">
+                </div>
+                
+            </div>
+        </div>
+    </div>
     <script src="index.js"></script>
 </body>
-
 </html>
