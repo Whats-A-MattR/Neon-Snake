@@ -1,3 +1,5 @@
+
+
 // pull in localStorage to save persistent high score
 const userStore = window.localStorage;
 
@@ -42,6 +44,8 @@ let musicTracks = [
     "/src/audio/songs/mixkit-sleepy-cat-135.mp3",
     "/src/audio/songs/OracleBeat2_2.mp3"
 ]
+
+//console.log(window.location.protocol + "//" + window.location.hostname + musicTracks[0])
 let moveNoise = "/src/audio/sfx/move3.mp3"
 let eatNoise = "/src/audio/sfx/eat.mp3"
 // create <audio>
@@ -107,7 +111,7 @@ function setSFXVolume(value) {
 let eatSFX = new Audio()
 eatSFX.id = "eatSFX"
 eatSFX.volume = userStore.getItem('sfxVol')
-eatSFX.setAttribute('src', eatSFX)
+eatSFX.setAttribute('src', eatNoise)
 
 function playEatSFX() {
     eatSFX.play()
