@@ -44,12 +44,24 @@ let musicTracks = [
     "/assets/audio/songs/mixkit-sleepy-cat-135.mp3",
     "/assets/audio/songs/OracleBeat2_2.mp3"
 ]
-
-console.log("Hostname:", window.location.hostname)
-console.log("Origin:", window.location.origin)
-console.log("mix:", (window.location.protocol + "//" + window.location.host + '/' + window.location.pathname.split('/')[0]))
 let moveNoise = "/assets/audio/sfx/move3.mp3"
 let eatNoise = "/assets/audio/sfx/eat.mp3"
+
+
+let origin;
+
+if ((window.location.origin).match('github')) {
+    origin = window.location.href;
+    for (i in musicTracks) {
+        musicTracks[i] = origin + musicTracks[i].substring(1)
+    }
+    moveNoise = origin + moveNoise.substring(1)
+    eatNoise = origin + eatNoise.substring(1)
+} else {
+    console.log("origin is not GitHub")
+    //console.log("https://whats-a-mattr.github.io/Neon-Snake/" + moveNoise.substring(1))
+}
+
 // create <audio>
 let musicPlayer = new Audio()
 musicPlayer.id = "musicPlayer";
