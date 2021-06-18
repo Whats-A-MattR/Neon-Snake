@@ -51,12 +51,15 @@ let eatNoise = "/assets/audio/sfx/eat.mp3"
 let origin;
 
 if ((window.location.origin).match('github')) {
-    origin = window.location.href;
-    for (i in musicTracks) {
-        musicTracks[i] = origin + musicTracks[i].substring(1)
+    if (!musicTracks[0].match('github')) {
+        origin = window.location.href;
+        for (i in musicTracks) {
+            musicTracks[i] = origin + musicTracks[i].substring(1)
+        }
+        moveNoise = origin + moveNoise.substring(1)
+        eatNoise = origin + eatNoise.substring(1)
     }
-    moveNoise = origin + moveNoise.substring(1)
-    eatNoise = origin + eatNoise.substring(1)
+
 } else {
     console.log("origin is not GitHub")
     //console.log("https://whats-a-mattr.github.io/Neon-Snake/" + moveNoise.substring(1))
@@ -68,8 +71,8 @@ musicPlayer.id = "musicPlayer";
 // set volume from stored local data (or default value, see top of script)
 musicPlayer.volume = userStore.getItem('MusicVol')
 // change song, allows looping without playing previous song again
+let musicTracksF
 const setSong = (oldsong = false) => {
-    let musicTracksF
     if (oldsong) {
         musicTracksF = musicTracks.filter(song => {
             let i = (oldsong).split('/').pop().indexOf(song)
