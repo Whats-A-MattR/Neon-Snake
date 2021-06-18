@@ -45,7 +45,9 @@ let musicTracks = [
     "/assets/audio/songs/OracleBeat2_2.mp3"
 ]
 
-//console.log(window.location.protocol + "//" + window.location.hostname + musicTracks[0])
+console.log("Hostname:", window.location.hostname)
+console.log("Origin:", window.location.origin)
+console.log("mix:", (window.location.protocol + "//" + window.location.host + '/' + window.location.pathname.split('/')[0]))
 let moveNoise = "/assets/audio/sfx/move3.mp3"
 let eatNoise = "/assets/audio/sfx/eat.mp3"
 // create <audio>
