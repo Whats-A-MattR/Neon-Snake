@@ -72,7 +72,7 @@ const setSong = (oldsong = false) => {
     let musicTracksF
     if (oldsong) {
         musicTracksF = musicTracks.filter(song => {
-            let i = oldsong.indexOf(song)
+            let i = (oldsong).split('/').pop().indexOf(song)
             if (i === -1) {
                 return song
             }
