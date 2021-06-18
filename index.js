@@ -39,15 +39,15 @@ if (userStore.getItem('sfxVol') === null) {
 }
 
 let musicTracks = [
-    "/src/audio/songs/mixkit-mura-masa-type-315.mp3",
-    "/src/audio/songs/mixkit-peace-487.mp3",
-    "/src/audio/songs/mixkit-sleepy-cat-135.mp3",
-    "/src/audio/songs/OracleBeat2_2.mp3"
+    "/assets/audio/songs/mixkit-mura-masa-type-315.mp3",
+    "/assets/audio/songs/mixkit-peace-487.mp3",
+    "/assets/audio/songs/mixkit-sleepy-cat-135.mp3",
+    "/assets/audio/songs/OracleBeat2_2.mp3"
 ]
 
 //console.log(window.location.protocol + "//" + window.location.hostname + musicTracks[0])
-let moveNoise = "/src/audio/sfx/move3.mp3"
-let eatNoise = "/src/audio/sfx/eat.mp3"
+let moveNoise = "/assets/audio/sfx/move3.mp3"
+let eatNoise = "/assets/audio/sfx/eat.mp3"
 // create <audio>
 let musicPlayer = new Audio()
 musicPlayer.id = "musicPlayer";
