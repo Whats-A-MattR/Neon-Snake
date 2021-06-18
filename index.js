@@ -73,10 +73,11 @@ musicPlayer.volume = userStore.getItem('MusicVol')
 // change song, allows looping without playing previous song again
 let musicTracksF
 const setSong = (oldsong = false) => {
-    console.log(oldsong.split('/').pop())
+    
     if (oldsong) {
+        console.log((oldsong).split('/').pop())
         musicTracksF = musicTracks.filter(song => {
-            let i = oldsong.split('/').pop().indexOf(song)
+            let i = (oldsong).split('/').pop().indexOf(song)
             if (i === -1) {
                 return song
             }
@@ -84,7 +85,7 @@ const setSong = (oldsong = false) => {
     } else {
         musicTracksF = musicTracks
     }
-    let track = escape(musicTracksF[Math.floor(Math.random() * musicTracksF.length)]);
+    let track = musicTracksF[Math.floor(Math.random() * musicTracksF.length)];
     musicPlayer.setAttribute('src', track);
     //musicPlayer.play();
 }
