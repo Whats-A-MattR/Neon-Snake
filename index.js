@@ -72,8 +72,7 @@ musicPlayer.id = "musicPlayer";
 musicPlayer.volume = userStore.getItem('MusicVol')
 // change song, allows looping without playing previous song again
 let musicTracksF
-const setSong = (oldsong = false) => {
-    
+const setSong = (oldsong = false) => {   
     if (oldsong) {
         console.log((oldsong).split('/').pop())
         musicTracksF = musicTracks.filter(song => {
