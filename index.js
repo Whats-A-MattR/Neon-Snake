@@ -37,12 +37,13 @@ if (userStore.getItem('sfxVol') === null) {
 }
 
 let musicTracks = [
-    "src/audio/songs/mixkit-mura-masa-type-315.mp3",
-    "src/audio/songs/mixkit-peace-487.mp3",
-    "src/audio/songs/mixkit-sleepy-cat-135.mp3",
-    "src/audio/songs/OracleBeat2_2.mp3"
+    "../src/audio/songs/mixkit-mura-masa-type-315.mp3",
+    "../src/audio/songs/mixkit-peace-487.mp3",
+    "../src/audio/songs/mixkit-sleepy-cat-135.mp3",
+    "../src/audio/songs/OracleBeat2_2.mp3"
 ]
-
+let moveNoise = '../src/audio/sfx/move3.mp3'
+let eatNoise = '../src/audio/sfx/eat.mp3'
 // create <audio>
 let musicPlayer = new Audio()
 musicPlayer.id = "musicPlayer";
@@ -90,7 +91,7 @@ musicVolController.addEventListener('input', function () {
 let moveSFX = new Audio()
 moveSFX.id = "moveSFX"
 moveSFX.volume = userStore.getItem('sfxVol')
-moveSFX.setAttribute('src', '/src/audio/sfx/move3.mp3')
+moveSFX.setAttribute('src', moveNoise)
 
 function playMoveSFX() {
     moveSFX.play()
@@ -106,7 +107,7 @@ function setSFXVolume(value) {
 let eatSFX = new Audio()
 eatSFX.id = "eatSFX"
 eatSFX.volume = userStore.getItem('sfxVol')
-eatSFX.setAttribute('src', '/src/audio/sfx/eat.mp3')
+eatSFX.setAttribute('src', eatSFX)
 
 function playEatSFX() {
     eatSFX.play()
